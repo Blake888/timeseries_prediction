@@ -90,7 +90,7 @@ if uploaded_file is not None:
 
         # Annotate each data point with its percentage value
         for i, (idx, row) in enumerate(forecast_df.iterrows()):
-        plt.text(idx, row['Predicted'], '{:.0%}'.format(row['Predicted'] / 1e6), ha='center', va='bottom')
+            plt.text(idx, row['Predicted'], '{:.0%}'.format(row['Predicted'] / 1e6), ha='center', va='bottom')
 
         plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
