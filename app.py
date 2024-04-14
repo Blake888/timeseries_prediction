@@ -17,8 +17,8 @@ P, D, Q, s = 0, 1, 1, 12
 
 # The coefficients from JMP
 ar_coefficient = 0.512021615939496 # Your AR1 coefficient
-ma_coefficient = 0.728544796962296 # Your MA1 coefficient
-seasonal_ma_coefficient = 0.674267607143122 # Your MA1,12 coefficient
+ma_coefficient = -0.728544796962296 # Your MA1 coefficient
+seasonal_ma_coefficient = -0.674267607143122 # Your MA1,12 coefficient
 
 # You may also have an intercept or other parameters; include them as needed
 intercept = 973.78596155231 # Your intercept
