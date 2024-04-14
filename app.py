@@ -84,21 +84,21 @@ if uploaded_file is not None:
         #st.pyplot(plt)
         
         plt.figure(figsize=(10, 5))
+    
+        # Plot the forecast with data points
         plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b', marker='o')
-    
-        # Format the x-axis to show all months
-        plt.xticks(forecast_index, forecast_index.strftime('%Y-%m'), rotation=45)
-    
-        # Format the y-axis to show percentages
-        from matplotlib.ticker import FuncFormatter
-        plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y/1e6)))
 
-        plt.fill_between(forecast_index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
+        # Annotate each data point with its percentage value
+        for i, (idx, row) in enumerate(forecast_df.iterrows()):
+        plt.text(idx, row['Predicted'], '{:.0%}'.format(row['Predicted'] / 1e6), ha='center', va='bottom')
+
+        plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
         plt.title('SARIMA Forecast Only (ATLANTA)')
         plt.xlabel('Date')
-        plt.ylabel('Passengers (%)')
+        plt.ylabel('Passengers')
         st.pyplot(plt)
+
 
         # Show forecast data
         st.write('Forecast Data:')
