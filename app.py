@@ -4,7 +4,12 @@ import numpy as np
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-st.title('SARIMA Model Forecasting (ATLANTA)')
+st.title('SARIMA Model Forecasting (ATLANTA City)')
+
+# Assuming the names of your columns are 'Date' for the date column
+# and 'Passengers' for the passenger counts/time series data
+date_column = 'Date'
+ts_column = 'Passengers'
 
 # Fixed SARIMA model parameters
 p, d, q = 1, 1, 1
@@ -25,7 +30,7 @@ n_periods = st.sidebar.number_input('Enter number of periods to forecast:', min_
 # File uploader for new data
 uploaded_file = st.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file, index_col=0, parse_dates=True)
+    data = pd.read_csv(uploaded_file, index_col=date_column, parse_dates=[date_column])
     st.write('Data Preview:')
     st.write(data.head())
 
