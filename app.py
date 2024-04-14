@@ -52,19 +52,19 @@ if uploaded_file is not None:
         
         # Make forecast
         forecast = results.get_forecast(steps=n_periods)
-        forecast_index = pd.date_range(start=data.index[-1], periods=n_periods+1, freq='M')
+        forecast_index = pd.date_range(start=data.index[-1], periods=n_periods+1, freq='MS')
         forecast_df = pd.DataFrame(forecast.predicted_mean, index=forecast_index, columns=['Predicted'])
 
         # Plotting the results
         plt.figure(figsize=(10, 5))
-        plt.plot(data, label='Historical')
-        plt.plot(forecast_df, label='Forecast', color='r')
+        plt.plot(data.index, data[ts_column], label='Historical', color='k') # ensure to plot against the data index
+        plt.plot(forecast_index, forecast_df['Predicted'], label='Forecast', color='r')
         plt.fill_between(forecast_index,
                          forecast.conf_int().iloc[:, 0],
                          forecast.conf_int().iloc[:, 1],
                          color='pink', alpha=0.3)
         plt.legend()
-        plt.title('SARIMA Forecast')
+        plt.title('SARIMA Forecast(ATLANTA)')
         plt.xlabel('Date')
         plt.ylabel('Value')
         st.pyplot(plt)
