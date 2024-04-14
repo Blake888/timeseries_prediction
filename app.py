@@ -84,7 +84,7 @@ if uploaded_file is not None:
         #st.pyplot(plt)
         
         plt.figure(figsize=(10, 5))
-         plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b', marker='o')
+        plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b', marker='o')
     
         # Format the x-axis to show all months
         plt.xticks(forecast_index, forecast_index.strftime('%Y-%m'), rotation=45)
