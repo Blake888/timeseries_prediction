@@ -86,6 +86,7 @@ if uploaded_file is not None:
         # Plotting the forecast only
         plt.figure(figsize=(10, 5))
         plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b',marker='o')
+        plt.xticks(forecast_index, forecast_index.strftime('%Y-%m'), rotation=45) # Format the x-axis to show all months
         plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
         plt.title('SARIMA Forecast Only (ATLANTA)')
