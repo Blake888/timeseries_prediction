@@ -3,3 +3,4 @@ scikit-learn==1.1.3
 numpy
 pandas
 joblib
+statsmodels
