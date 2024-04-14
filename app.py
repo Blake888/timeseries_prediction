@@ -16,12 +16,12 @@ p, d, q = 1, 1, 1
 P, D, Q, s = 0, 1, 1, 12
 
 # The coefficients from JMP
-ar_coefficient = 0.512021615939496 # Your AR1 coefficient here
-ma_coefficient = 0.728544796962296 # Your MA1 coefficient here
-seasonal_ma_coefficient = 0.674267607143122 # Your MA1,12 coefficient here
+ar_coefficient = 0.512021615939496 # Your AR1 coefficient
+ma_coefficient = 0.728544796962296 # Your MA1 coefficient
+seasonal_ma_coefficient = 0.674267607143122 # Your MA1,12 coefficient
 
 # You may also have an intercept or other parameters; include them as needed
-intercept = 973.78596155231 # Your intercept here
+intercept = 973.78596155231 # Your intercept
 
 # Sidebar for user input to predict periods
 st.sidebar.header('Forecast Parameters')
@@ -52,21 +52,25 @@ if uploaded_file is not None:
         
         # Make forecast
         forecast = results.get_forecast(steps=n_periods)
-        forecast_index = pd.date_range(start=data.index[-1], periods=n_periods+1, freq='MS')
-        forecast_df = pd.DataFrame(forecast.predicted_mean, index=forecast_index, columns=['Predicted'])
+        forecast_df = pd.DataFrame({
+            'Predicted': forecast.predicted_mean,
+            'Lower CI': forecast.conf_int().iloc[:, 0],
+            'Upper CI': forecast.conf_int().iloc[:, 1]
+        })
+        
+        # Generate the forecast index
+        forecast_index = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=n_periods, freq='MS')
+        forecast_df.index = forecast_index
 
         # Plotting the results
         plt.figure(figsize=(10, 5))
-        plt.plot(data.index, data[ts_column], label='Historical', color='k') # ensure to plot against the data index
-        plt.plot(forecast_index, forecast_df['Predicted'], label='Forecast', color='r')
-        plt.fill_between(forecast_index,
-                         forecast.conf_int().iloc[:, 0],
-                         forecast.conf_int().iloc[:, 1],
-                         color='pink', alpha=0.3)
+        plt.plot(data.index, data[ts_column], label='Historical', color='k')
+        plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='r')
+        plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='pink', alpha=0.3)
         plt.legend()
-        plt.title('SARIMA Forecast(ATLANTA)')
+        plt.title('SARIMA Forecast (ATLANTA)')
         plt.xlabel('Date')
-        plt.ylabel('Value')
+        plt.ylabel('Passengers')
         st.pyplot(plt)
 
         # Show forecast data
