@@ -61,6 +61,9 @@ if uploaded_file is not None:
         # Generate the forecast index
         forecast_index = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=n_periods, freq='MS')
         forecast_df.index = forecast_index
+        
+        # Calculate the total forecasted passengers
+        total_forecasted_passengers = forecast_df['Predicted'].sum()
 
         # Plotting the results
         plt.figure(figsize=(10, 5))
@@ -84,13 +87,12 @@ if uploaded_file is not None:
         #st.pyplot(plt)
         
         plt.figure(figsize=(10, 5))
-    
-        # Plot the forecast with data points
         plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b', marker='o')
-
-        # Annotate each data point with its percentage value
-        for i, (idx, row) in enumerate(forecast_df.iterrows()):
-            plt.text(idx, row['Predicted'], '{:.0%}'.format(row['Predicted'] / 1e6), ha='center', va='bottom')
+    
+        # Annotate each data point with its percentage of the total forecasted passengers
+        for date, predicted in zip(forecast_df.index, forecast_df['Predicted']):
+            percentage_of_total = predicted / total_forecasted_passengers
+            plt.annotate(f'{percentage_of_total:.2%}', (date, predicted), textcoords="offset points", xytext=(0,10), ha='center')
 
         plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
