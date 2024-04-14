@@ -27,9 +27,14 @@ intercept = 973.78596155231 # Your intercept
 st.sidebar.header('Forecast Parameters')
 # Place the file uploader in the sidebar
 uploaded_file = st.sidebar.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
+# Add some space after the number input
+st.sidebar.markdown('---')  # This adds a horizontal line
+st.sidebar.markdown('<br>', unsafe_allow_html=True)  # This adds a line break (space)
 #for user input to predict periods
 n_periods = st.sidebar.number_input('Enter number of months to forecast:', min_value=1, value=12, step=1)
-
+# Add some space after the number input
+st.sidebar.markdown('---')  # This adds a horizontal line
+st.sidebar.markdown('<br>', unsafe_allow_html=True)  # This adds a line break (space)
 # Place the button on the sidebar
 run_forecast = st.sidebar.button('Run Forecast')
 
