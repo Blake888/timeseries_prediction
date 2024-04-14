@@ -4,7 +4,7 @@ import numpy as np
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-st.title('SARIMA Model Forecasting (ATLANTA City)')
+st.title('SARIMA Model Forecasting (ATLANTA)')
 
 # Assuming the names of your columns are 'Date' for the date column
 # and 'Passengers' for the passenger counts/time series data
@@ -37,7 +37,7 @@ if uploaded_file is not None:
     if st.button('Run Forecast'):
         # Construct the SARIMA model with the fixed orders and the JMP coefficients
         mod = sm.tsa.statespace.SARIMAX(
-            data['value'],
+            data[ts_column],
             order=(p, d, q),
             seasonal_order=(P, D, Q, s),
             enforce_stationarity=False,
