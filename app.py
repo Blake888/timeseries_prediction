@@ -73,6 +73,16 @@ if uploaded_file is not None:
         plt.ylabel('Passengers')
         st.pyplot(plt)
 
+        # Plotting the forecast only
+        plt.figure(figsize=(10, 5))
+        plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b')
+        plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
+        plt.legend()
+        plt.title('SARIMA Forecast Only (ATLANTA)')
+        plt.xlabel('Date')
+        plt.ylabel('Passengers')
+        st.pyplot(plt)
+
         # Show forecast data
         st.write('Forecast Data:')
         st.write(forecast_df)
