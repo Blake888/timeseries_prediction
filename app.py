@@ -23,11 +23,13 @@ seasonal_ma_coefficient = -0.674267607143122 # Your MA1,12 coefficient
 # You may also have an intercept or other parameters; include them as needed
 intercept = 973.78596155231 # Your intercept
 
-# Sidebar for user input to predict periods
+# Sidebar 
 st.sidebar.header('Forecast Parameters')
-n_periods = st.sidebar.number_input('Enter number of periods to forecast:', min_value=1, value=12, step=1)
 # Place the file uploader in the sidebar
 uploaded_file = st.sidebar.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
+#for user input to predict periods
+n_periods = st.sidebar.number_input('Enter number of months to forecast:', min_value=1, value=12, step=1)
+
 # Place the button on the sidebar
 run_forecast = st.sidebar.button('Run Forecast')
 
