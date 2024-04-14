@@ -52,7 +52,7 @@ if uploaded_file is not None:
         
         # Make forecast
         forecast = results.get_forecast(steps=n_periods)
-        forecast_index = pd.date_range(start=data.index[-1], periods=n_periods+1, closed='right')
+        forecast_index = pd.date_range(start=data.index[-1], periods=n_periods+1, freq='M')
         forecast_df = pd.DataFrame(forecast.predicted_mean, index=forecast_index, columns=['Predicted'])
 
         # Plotting the results
