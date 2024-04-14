@@ -26,11 +26,12 @@ intercept = 973.78596155231 # Your intercept
 # Sidebar for user input to predict periods
 st.sidebar.header('Forecast Parameters')
 n_periods = st.sidebar.number_input('Enter number of periods to forecast:', min_value=1, value=12, step=1)
+# Place the file uploader in the sidebar
+uploaded_file = st.sidebar.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
 # Place the button on the sidebar
 run_forecast = st.sidebar.button('Run Forecast')
 
-# File uploader for new data
-uploaded_file = st.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
+# Data preview section
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file, index_col=date_column, parse_dates=[date_column])
     st.write('Data Preview:')
