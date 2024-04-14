@@ -26,6 +26,8 @@ intercept = 973.78596155231 # Your intercept
 # Sidebar for user input to predict periods
 st.sidebar.header('Forecast Parameters')
 n_periods = st.sidebar.number_input('Enter number of periods to forecast:', min_value=1, value=12, step=1)
+# Place the button on the sidebar
+run_forecast = st.sidebar.button('Run Forecast')
 
 # File uploader for new data
 uploaded_file = st.file_uploader("Upload your input CSV file (time series data)", type=["csv"])
@@ -34,7 +36,7 @@ if uploaded_file is not None:
     st.write('Data Preview:')
     st.write(data.head())
 
-    if st.button('Run Forecast'):
+    if run_forecast:
         # Construct the SARIMA model with the fixed orders and the JMP coefficients
         mod = sm.tsa.statespace.SARIMAX(
             data[ts_column],
@@ -59,11 +61,8 @@ if uploaded_file is not None:
         })
         
         # Generate the forecast index
-        forecast_index = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=n_periods, freq='MS')
+        forecast_index = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=n_periods, freq='ME')
         forecast_df.index = forecast_index
-        
-        # Calculate the total forecasted passengers
-        total_forecasted_passengers = forecast_df['Predicted'].sum()
 
         # Plotting the results
         plt.figure(figsize=(10, 5))
@@ -77,30 +76,15 @@ if uploaded_file is not None:
         st.pyplot(plt)
 
         # Plotting the forecast only
-        #plt.figure(figsize=(10, 5))
-        #plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b')
-        #plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
-        #plt.legend()
-        #plt.title('SARIMA Forecast Only (ATLANTA)')
-        #plt.xlabel('Date')
-        #plt.ylabel('Passengers')
-        #st.pyplot(plt)
-        
         plt.figure(figsize=(10, 5))
-        plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b', marker='o')
-    
-        # Annotate each data point with its percentage of the total forecasted passengers
-        for date, predicted in zip(forecast_df.index, forecast_df['Predicted']):
-            percentage_of_total = predicted / total_forecasted_passengers
-            plt.annotate(f'{percentage_of_total:.2%}', (date, predicted), textcoords="offset points", xytext=(0,10), ha='center')
-
+        plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='b',marker='o')
         plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
         plt.title('SARIMA Forecast Only (ATLANTA)')
         plt.xlabel('Date')
         plt.ylabel('Passengers')
         st.pyplot(plt)
-
+        
 
         # Show forecast data
         st.write('Forecast Data:')
