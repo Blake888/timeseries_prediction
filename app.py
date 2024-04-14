@@ -66,7 +66,7 @@ if uploaded_file is not None:
         plt.figure(figsize=(10, 5))
         plt.plot(data.index, data[ts_column], label='Historical', color='k')
         plt.plot(forecast_df.index, forecast_df['Predicted'], label='Forecast', color='r')
-        plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='pink', alpha=0.3)
+        plt.fill_between(forecast_df.index, forecast_df['Lower CI'], forecast_df['Upper CI'], color='blue', alpha=0.3)
         plt.legend()
         plt.title('SARIMA Forecast (ATLANTA)')
         plt.xlabel('Date')
